@@ -1,7 +1,7 @@
-# JavaFX Game Recursion and BSTs
+# Phase 4 — Recursion & BST
 
 ## Goal
-Link recursion and binary search trees to the game project as later-week extensions.
+Implement a recursive binary search tree that keeps the leaderboard sorted automatically.
 
 ## Recursion basics
 A recursive method calls itself with a smaller problem.
@@ -30,7 +30,8 @@ int factorial(int n) {
 ```
 
 ## Recursive game-related example
-A flood-fill algorithm can color a connected area on a 2D grid.
+A flood-fill algorithm can color a connected area on a 2D grid — the same
+kind of grid you built in Phase 1.
 
 ```java
 void floodFill(int row, int col) {
@@ -44,9 +45,63 @@ void floodFill(int row, int col) {
 }
 ```
 
+## Linked lists
+
+Before looking at BSTs, it helps to understand the simpler structure they're
+built from: the **linked list**.
+
+A linked list is a chain of nodes. Each node holds a value and a reference
+to the **next** node in the chain. The last node's `next` is `null`.
+
+```java
+class Node {
+    int value;
+    Node next;   // reference to the next node, or null at the end
+}
+```
+
+Because each node only knows its successor, you traverse a linked list from
+front to back — you cannot jump directly to the middle.
+
+Java's built-in `LinkedList` class implements this for you:
+
+```java
+LinkedList<String> list = new LinkedList<>();
+list.addLast("first");
+list.addLast("second");
+list.addLast("third");
+System.out.println(list.getFirst());  // "first"
+System.out.println(list.size());      // 3
+```
+
+> **Reference:** [W3Schools — Java LinkedList](https://www.w3schools.com/java/java_linkedlist.asp)
+
+`LinkedList` can also act as a **queue** — a structure where items join at
+the back and leave from the front (first in, first out, like a checkout line).
+The game engine uses a `LinkedList` as a queue internally to navigate the
+maze, but you don't need to know the details.
+
+---
+
 ## Binary search tree (BST) leaderboard
-A BST is a tree where left nodes are smaller and right nodes are larger.
-It is a good way to sort scores and teach recursion.
+
+A BST is the same linked-node idea as a linked list, but each node has
+**two** references instead of one — `left` for smaller values and `right`
+for larger ones. This property keeps the tree sorted automatically.
+
+```
+        500
+       /   \
+     200   800
+    /   \
+  100   350
+```
+
+Inserting a score: walk left when the new score is smaller, right when it is
+larger, until you find an empty spot.
+
+Traversing in order (left → node → right) always yields scores from smallest
+to largest.
 
 ### Node class
 ```java
@@ -102,22 +157,15 @@ makes `left` point to a new node. Setting it to `null` is the equivalent of a
 null pointer.
 
 The BST is therefore a **linked structure**: every node holds two references
-that chain it to its children. This is the same idea behind a singly-linked
-list, where each node holds one `next` reference instead of two.
+that chain it to its children — the same idea as a linked list node's single
+`next` reference, just with two children instead of one.
 
-You can see this pattern used in the engine too — open `Ghost.java` and find
-`bfsDirection()`. The BFS uses:
+| Structure | References per node | Ordered? |
+|-----------|-------------------|----------|
+| Linked list | 1 (`next`) | insertion order |
+| BST | 2 (`left`, `right`) | sorted by value |
 
-```java
-Queue<int[]> queue = new LinkedList<>();
-```
-
-`LinkedList` is Java's built-in linked list. Each element is a node that holds
-a reference to the next.
-
-> **Reference:** [W3Schools — Java LinkedList](https://www.w3schools.com/java/java_linkedlist.asp) The BFS uses it as a `Queue` (add to back, remove from
-front), but the underlying structure is a chain of linked nodes — the same
-concept you are implementing by hand in `ScoreTree`.
+---
 
 ## In Pellet Pursuit
 
@@ -139,7 +187,8 @@ Match the tutorial's insert pattern exactly:
 
 **`collectDescending(ScoreNode node, List<ScoreNode> result, int n)`** — reverse in-order traversal.
 
-This is the mirror of the tutorial's `printInOrder`, but visiting **right first** so scores come out highest-to-lowest, and stopping once `result` has `n` items:
+This is the mirror of the tutorial's `printInOrder`, but visiting **right first**
+so scores come out highest-to-lowest, and stopping once `result` has `n` items:
 - Base cases: `node == null` or `result.size() >= n` → return
 - Visit right subtree → add node → visit left subtree
 
@@ -149,4 +198,4 @@ will show the top 5 scores in descending order.
 ### Extension tasks
 - Add a `search(int score)` method that returns whether a score exists in the tree (recursive, like `insert`).
 - Add a `max()` method that returns the highest score by walking right until there is no right child.
-- Visualise the tree on screen: draw each node as a circle with lines connecting parent to child.
+- Visualize the tree on screen: draw each node as a circle with lines connecting parent to child.
