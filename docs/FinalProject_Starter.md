@@ -37,6 +37,14 @@ open a searchable list of every method and field in the current file. Start
 typing a method name and press Enter to jump to it — useful in longer files
 like `GameApp.java`.
 
+**Reading a guide and editing code at the same time:** open the phase guide
+from the `docs/` folder in the Project panel on the left. IntelliJ renders
+`.md` files as formatted text — if you see raw markdown symbols instead,
+click the small preview icon in the top-right corner of the editor (it looks
+like a split rectangle). To put the guide and a source file side by side,
+right-click the source file's tab and choose **Split Right**; drag the tab
+back to recombine when you're done.
+
 ---
 
 ## The game loop
