@@ -103,9 +103,11 @@ reach zero, the state transitions to `GAME_OVER`; when all dots are eaten it
 transitions to `LEVEL_CLEAR`.
 
 ### Your task
-Find the `PLAYING` branch in `update()` and trace how score is incremented
-when the player eats a dot. Then find where `lives` is decremented and follow
-the state transition to `DEAD_PAUSE`.
+Open `GameApp.java` and find the `PLAYING` case in `update()`. Locate the
+call that handles dot collection and note: what method does it call, and what
+point values does it return for a regular dot vs. a power pellet? Then find
+where `lives` is decremented — follow the code to identify which state the
+game transitions to immediately after a life is lost.
 
 ---
 

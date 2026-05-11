@@ -167,13 +167,12 @@ sprite centers and check if it is less than a threshold.
 
 This is also a stub — you implement it in Phase 2 (see Your task below).
 
-### Your task
-
-**1. Implement `Ghost.collidesWith(Player p)` in `Ghost.java`**
+### Step 1 — implement `Ghost.collidesWith(Player p)` in `Ghost.java`
 
 The method should return `true` when the ghost is close enough to the player
 to count as a collision. `distanceTo()` is already implemented in `Sprite` —
-it returns the straight-line pixel distance between two center points.
+pass `p.centerX()` and `p.centerY()` to get the pixel distance between the
+two sprite centers.
 
 Use it to compare the distance between the ghost and the player against a
 threshold based on `size`. Consider: should the threshold be exactly `size`,
@@ -189,7 +188,11 @@ would be less accurate than measuring the pixel gap between their centers.
 Without this, ghosts pass through the player with no effect — no death, no
 eating frightened ghosts.
 
-**2. Implement the ghost personalities — one at a time**
+**Checkpoint:** run the game. Walking into Shadow should now cost a life — you'll
+see the death animation. If not, re-check that `distanceTo` is receiving center
+coordinates (not top-left corners) and that your threshold is reasonable.
+
+### Step 2 — implement the ghost personalities — one at a time
 
 Each ghost file (`Patrol.java`, `Shy.java`, `Ambush.java`) has a `chooseTarget()`
 stub with TODO comments. Read `Shadow.java` first — it is the worked example.
@@ -211,8 +214,10 @@ ghosts = new ArrayList<>(List.of(
 > `new ArrayList<>(...)` wraps it in a mutable list so the game can modify it
 > at runtime.
 
-Each ghost you add should feel visibly different from Shadow — that is how you
-know the personality is working.
+**Checkpoint after each ghost:** run the game and watch that ghost for 30
+seconds. It should behave noticeably differently from Shadow. If two ghosts
+feel identical, re-read the `chooseTarget()` stub comments — a common mistake
+is accidentally returning the player's tile instead of the intended target.
 
 ---
 

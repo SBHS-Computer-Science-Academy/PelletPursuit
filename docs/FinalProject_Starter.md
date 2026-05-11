@@ -73,7 +73,7 @@ know what you're getting into before you read them.
 
 ### Phase 3 — [Bonus items & file I/O](FinalProject_Phase3_State.md)
 - Create a custom bonus item by extending `BonusItem`
-- Implement `updateBonusItems()` in `GameApp.java` — iterate the list, collect, remove with `removeIf()`
+- Implement `updateBonusItems()` in `GameApp.java` — iterate the list, collect, remove expired items
 - Implement `saveToFile()` and `loadFromFile()` in `ScoreTree.java`
 
 ### Phase 4 — [Recursion & BST](FinalProject_Phase4_RecursionBST.md)

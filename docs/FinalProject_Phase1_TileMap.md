@@ -264,7 +264,7 @@ and feel:
    wall directly above spawn, so the player should stop within one tile.
 3. If the player drifts in all four directions without ever stopping,
    `canMove` is still returning `true` for walls — re-check your `isWall()`
-   and `canMove` logic before moving on.
+   (Step 3) and `isOutOfGrid()` (Step 2) implementations before moving on.
 
 Once you can feel the player stopping at walls, movement is done — now make
 the maze visible before you redesign it.
@@ -304,9 +304,11 @@ Without this, dots stay on screen forever, the score stays at zero, and
 
 ### Step 7 — sketch your maze on paper first
 
-Draw a 21×23 grid (or any odd-width, odd-height size you like). Mark walls,
-open corridors, dot paths, the four power-pellet corners, and where you want
-each spawn marker. Checking on paper first saves a lot of debugging.
+Draw a 21×23 grid (or any size you like — odd dimensions make it easier to
+create symmetric corridors and place a true center tile, but they are not
+required). Mark walls, open corridors, dot paths, the four power-pellet
+corners, and where you want each spawn marker. Checking on paper first saves
+a lot of debugging.
 
 Keep these in mind:
 - The outer border should be all walls (`W`).
@@ -378,7 +380,7 @@ Walk every corridor to confirm there are no dead-end rooms. Try eating all the d
 | `IllegalStateException: required spawn tile SPAWN_G1 not found` | Forgot to place `G1` in the layout, or placed it twice (which overwrites the first) |
 | `Maze design error: row 10 has an open left edge but not right` | Row 10 has an `E` on the left but `W` on the right — either wall both sides or open both |
 | Ghost or player spawns inside a wall | You placed a spawn alias (`G0`, `PL`, etc.) on a `W` tile — move it to an open tile |
-| Bonus item never appears | `BN` is missing; the game silently has no valid spawn coordinate |
+| `IllegalStateException: required spawn tile SPAWN_BONUS not found` | `BN` is missing from the layout |
 
 ---
 
