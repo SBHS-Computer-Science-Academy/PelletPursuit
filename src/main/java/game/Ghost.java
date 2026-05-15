@@ -106,7 +106,7 @@ public abstract class Ghost extends Sprite {
             y = map.tileCenterY(r) - size / 2;
 
             int[] target = chooseTarget(currentPlayer, map);
-            int[] next   = bfsDirection(c, r, target[0], target[1], map);
+            int[] next = bfsDirection(c, r, target[0], target[1], map);
             dx = next[0];
             dy = next[1];
             if (!map.isWall(c + dx, r + dy)) {
@@ -176,6 +176,13 @@ public abstract class Ghost extends Sprite {
     // BFS to find the shortest path — returns the first step as [dc, dr]
     protected int[] bfsDirection(int col, int row, int targetCol, int targetRow, GameMap map) {
         if (col < 0 || col >= map.cols || row < 0 || row >= map.rows) return new int[]{dx, dy};
+        if (targetCol < 0 || targetCol >= map.cols || targetRow < 0 || targetRow >= map.rows) {
+            throw new IllegalArgumentException(
+                getClass().getSimpleName() + ".chooseTarget() returned an out-of-bounds tile: " +
+                "[col=" + targetCol + ", row=" + targetRow + "]. " +
+                "Valid range is col 0–" + (map.cols - 1) + ", row 0–" + (map.rows - 1) + "."
+            );
+        }
         if (col == targetCol && row == targetRow) {
             // Already at target — keep going forward if open, else turn
             if (!map.isWall(col + dx, row + dy)) return new int[]{dx, dy};
