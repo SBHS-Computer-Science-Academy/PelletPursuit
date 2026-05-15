@@ -111,9 +111,8 @@ public abstract class Ghost extends Sprite {
             try {
                 next = bfsDirection(c, r, target[0], target[1], map);
             } catch (IllegalArgumentException e) {
-                System.err.println("ERROR: " + e.getMessage());
                 Platform.exit();
-                return;
+                throw e;
             }
             dx = next[0];
             dy = next[1];
