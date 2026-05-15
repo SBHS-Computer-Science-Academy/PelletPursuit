@@ -214,6 +214,29 @@ ghosts = new ArrayList<>(List.of(
 > `new ArrayList<>(...)` wraps it in a mutable list so the game can modify it
 > at runtime.
 
+#### If the game crashes immediately — out-of-bounds target
+
+If your game shuts down the moment a ghost spawns, look at the error in your
+IDE's console (the Run or Debug tab). You'll see something like:
+
+```
+Exception in thread "JavaFX Application Thread" java.lang.IllegalArgumentException:
+Patrol.chooseTarget() returned an out-of-bounds tile: [col=28, row=-1].
+Valid range is col 0–27, row 0–30.
+```
+
+**What is an Exception?**  
+An *exception* is Java's way of saying "something went wrong that the program
+can't recover from on its own." When code detects an impossible situation — like
+a tile coordinate that doesn't exist on the map — it *throws* an exception,
+which stops the program immediately. This is intentional: running with bad data
+would produce unpredictable behavior that's much harder to track down than a
+clear error message.
+
+Read the message carefully — it tells you exactly which ghost class caused the
+problem and what value it returned. Use that to figure out why your coordinate
+calculation is going out of range, and fix the math in `chooseTarget()`.
+
 **Checkpoint after each ghost:** run the game and watch that ghost for 30
 seconds. It should behave noticeably differently from Shadow. If two ghosts
 feel identical, re-read the `chooseTarget()` stub comments — a common mistake
