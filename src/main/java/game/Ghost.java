@@ -1,5 +1,6 @@
 package game;
 
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import java.util.*;
@@ -106,7 +107,14 @@ public abstract class Ghost extends Sprite {
             y = map.tileCenterY(r) - size / 2;
 
             int[] target = chooseTarget(currentPlayer, map);
-            int[] next = bfsDirection(c, r, target[0], target[1], map);
+            int[] next;
+            try {
+                next = bfsDirection(c, r, target[0], target[1], map);
+            } catch (IllegalArgumentException e) {
+                System.err.println("ERROR: " + e.getMessage());
+                Platform.exit();
+                return;
+            }
             dx = next[0];
             dy = next[1];
             if (!map.isWall(c + dx, r + dy)) {
